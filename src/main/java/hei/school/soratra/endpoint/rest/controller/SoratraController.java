@@ -38,7 +38,7 @@ public class SoratraController {
             bucketComponent.upload(fileToUpload, SORATRA_KEY + id + ".txt");
 
             File fileTransformed = convertToTempFile(file, id);        
-            bucketComponent.upload(convertToTempFileTransformed(fileTransformed), SORATRA_KEY + "UpperCase/" + id + ".txt");
+            bucketComponent.upload(fileTransformed, SORATRA_KEY + "UpperCase/" + id + ".txt");
             
             return ResponseEntity.ok().body(null);
         } catch (IOException e) {
