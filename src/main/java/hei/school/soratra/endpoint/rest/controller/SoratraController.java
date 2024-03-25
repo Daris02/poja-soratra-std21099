@@ -35,11 +35,10 @@ public class SoratraController {
     ) {
         try {
             File fileToUpload = convertToTempFile(file);
-
-            bucketComponent.upload(fileToUpload, SORATRA_KEY + id);
+            bucketComponent.upload(fileToUpload, SORATRA_KEY + id + ".txt");
 
             File fileTransformed = convertToTempFileTransformed(fileToUpload);            
-            bucketComponent.upload(fileTransformed, SORATRA_KEY + "UpperCase/" + id);
+            bucketComponent.upload(fileTransformed, SORATRA_KEY + "UpperCase/" + id + ".txt");
             
             return ResponseEntity.ok().body(null);
         } catch (IOException e) {
@@ -62,7 +61,7 @@ public class SoratraController {
     }
     
     private File convertToTempFile(byte[] file) throws IOException {
-        File tempFile = File.createTempFile("temp-fichier", ".txt");
+        File tempFile = File.createTempFile("tempFile", ".txt");
         try (FileOutputStream fos = new FileOutputStream(tempFile)) {
             fos.write(file);
         }
