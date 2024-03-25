@@ -37,13 +37,8 @@ public class SoratraController {
             File fileToUpload = convertToTempFile(file);
 
             bucketComponent.upload(fileToUpload, SORATRA_KEY + id);
-            String allUpperCase = convertToUpperCase(fileToUpload.getName());         
 
-            File fileTransformed = new File(id);
-            try (FileOutputStream fos = new FileOutputStream(fileTransformed)) {
-                fos.write(allUpperCase.getBytes());
-            }
-            
+            File fileTransformed = convertToTempFileTransformed(file);            
             bucketComponent.upload(fileTransformed, SORATRA_KEY + "UpperCase/" + id);
             
             return ResponseEntity.ok().body(null);
@@ -74,18 +69,33 @@ public class SoratraController {
         return tempFile;
     }
 
-    private static String convertToUpperCase(String file) throws IOException {
-        File fichier = new File(file);
+    private static File convertToTempFileTransformed(byte[] file) throws IOException {
+        File tempFile = File.createTempFile("temp-fichier", ".txt");
+        try (FileOutputStream fos = new FileOutputStream(tempFile)) {
+            fos.write(file);
+        }
+        String upperCaseString = convertToUpperCase(tempFile.getName());
     
-        StringBuilder contenu = new StringBuilder();
+        File fileToUpperCase = new File("file-uppercase.txt");
+        try (FileOutputStream fos = new FileOutputStream(upperCaseString)) {
+            fos.write(upperCaseString.getBytes());
+        }
+    
+        return fileToUpperCase;
+    }
 
-        try (Scanner scanner = new Scanner(fichier)) {
+    public static String convertToUpperCase(String myFile) throws IOException {
+        File file = new File(myFile);
+    
+        StringBuilder content = new StringBuilder();
+    
+        try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
                 String ligne = scanner.nextLine();
-                contenu.append(ligne.toUpperCase()).append("\n");
+                content.append(ligne.toUpperCase()).append("\n");
             }
         }
     
-        return contenu.toString();
+        return content.toString();
     }
 }
