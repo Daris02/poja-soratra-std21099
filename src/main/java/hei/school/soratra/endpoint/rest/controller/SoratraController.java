@@ -34,7 +34,7 @@ public class SoratraController {
         @RequestBody byte[] file
     ) {
         try {
-            File fileToUpload = convertToTempFile(file);
+            File fileToUpload = convertToTempFile(file, id);
             bucketComponent.upload(fileToUpload, SORATRA_KEY + id + ".txt");
 
             File fileTransformed = convertToTempFileTransformed(fileToUpload);            
@@ -60,8 +60,8 @@ public class SoratraController {
         }
     }
     
-    private File convertToTempFile(byte[] file) throws IOException {
-        File tempFile = File.createTempFile("tempFile", ".txt");
+    private File convertToTempFile(byte[] file, String id) throws IOException {
+        File tempFile = File.createTempFile(id, ".txt");
         try (FileOutputStream fos = new FileOutputStream(tempFile)) {
             fos.write(file);
         }
