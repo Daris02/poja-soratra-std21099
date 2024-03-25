@@ -76,7 +76,7 @@ public class SoratraController {
         }
         String upperCaseString = convertToUpperCase(tempFile.getName());
     
-        File fileToUpperCase = new File("file-uppercase.txt");
+        File fileToUpperCase = new File(upperCaseString);
         try (FileOutputStream fos = new FileOutputStream(upperCaseString)) {
             fos.write(upperCaseString.getBytes());
         }
