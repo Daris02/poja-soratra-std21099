@@ -36,7 +36,7 @@ public class SoratraController {
         try {
             File fileToUpload = convertToTempFile(file);
 
-            bucketComponent.upload(fileToUpload, SORATRA_KEY + id + ".txt");
+            bucketComponent.upload(fileToUpload, SORATRA_KEY + id);
             String allUpperCase = convertToUpperCase(fileToUpload.getName());         
 
             File fileTransformed = new File(id);
@@ -44,11 +44,11 @@ public class SoratraController {
                 fos.write(allUpperCase.getBytes());
             }
             
-            bucketComponent.upload(fileTransformed, SORATRA_KEY + "UpperCase/" + id + ".txt");
+            bucketComponent.upload(fileTransformed, SORATRA_KEY + "UpperCase/" + id);
             
             return ResponseEntity.ok().body(null);
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors du traitement de l'image: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors du traitement du fichier text: " + e.getMessage());
         }
     }
 
