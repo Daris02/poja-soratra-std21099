@@ -38,7 +38,7 @@ public class SoratraController {
 
             bucketComponent.upload(fileToUpload, SORATRA_KEY + id);
 
-            File fileTransformed = convertToTempFileTransformed(file);            
+            File fileTransformed = convertToTempFileTransformed(fileToUpload);            
             bucketComponent.upload(fileTransformed, SORATRA_KEY + "UpperCase/" + id);
             
             return ResponseEntity.ok().body(null);
@@ -69,14 +69,10 @@ public class SoratraController {
         return tempFile;
     }
 
-    private static File convertToTempFileTransformed(byte[] file) throws IOException {
-        File tempFile = File.createTempFile("temp-fichier", ".txt");
-        try (FileOutputStream fos = new FileOutputStream(tempFile)) {
-            fos.write(file);
-        }
-        String upperCaseString = convertToUpperCase(tempFile.getName());
+    private static File convertToTempFileTransformed(File file) throws IOException {
+        String upperCaseString = convertToUpperCase(file.getName());
     
-        File fileToUpperCase = new File(upperCaseString);
+        File fileToUpperCase = new File("file-to-upper-case.txt");
         try (FileOutputStream fos = new FileOutputStream(upperCaseString)) {
             fos.write(upperCaseString.getBytes());
         }
